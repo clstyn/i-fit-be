@@ -16,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 9000;
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the I-Fit server!");
+});
+
 try {
   app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`);
