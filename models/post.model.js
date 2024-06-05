@@ -46,8 +46,12 @@ const PostSchema = new mongoose.Schema({
     type: [subSchemaLangkah],
   },
   like: {
-    type: Number,
-    default: 0,
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    default: [],
+  },
+  tags: {
+    type: [String],
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

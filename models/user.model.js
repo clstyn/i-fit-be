@@ -60,11 +60,6 @@ const UserSchema = new mongoose.Schema({
     type: [subSchemaAKG],
     default: [],
   },
-  likedRecipes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Post",
-    default: [],
-  },
 });
 
 UserSchema.pre("save", async function (next) {
