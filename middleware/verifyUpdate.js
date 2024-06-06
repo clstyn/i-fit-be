@@ -6,9 +6,7 @@ checkDuplicate = (req, res, next) => {
     .exec()
     .then((user) => {
       if (user) {
-        return res
-          .status(400)
-          .json({ message: "Username tidak dapat digunakan" });
+        req.foundUser = user._id;
       }
       next();
     })

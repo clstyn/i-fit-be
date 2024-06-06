@@ -168,25 +168,34 @@ exports.signin = (req, res) => {
     });
 };
 
-exports.updateAccount = (req, res) => {
+exports.updateAccount = async (req, res) => {
   const { fullname, username } = req.body;
   const userId = req.user._id;
 
-  User.findByIdAndUpdate(
-    userId,
-    { fullname: fullname, username: username },
-    { new: true }
-  )
-    .exec()
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ message: "Akun tidak ditemukan" });
-      }
-      res.status(200).json({ message: `Berhasil memperbarui akun`, user });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message || "Kesalahan pada server" });
-    });
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Akun tidak ditemukan" });
+    }
+
+    if (req.foundUser && req.foundUser != userId) {
+      return res
+        .status(400)
+        .json({ message: "Username tidak dapat digunakan" });
+    }
+
+    const newUser = await User.findByIdAndUpdate(
+      userId,
+      { fullname: fullname, username: username },
+      { new: true }
+    ).exec();
+
+    res.status(200).json({ message: `Berhasil memperbarui akun`, newUser });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: err.message || "Kesalahan pada server" });
+  }
 };
 
 exports.forgotPassword = async (req, res) => {
