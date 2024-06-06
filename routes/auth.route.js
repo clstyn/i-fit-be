@@ -17,6 +17,7 @@ router.post(
   controller.updateAccount
 );
 router.post("/forgot-password", controller.forgotPassword);
+router.post("/reset-password/:token", controller.resetPassword);
 router.post(
   "/change-password",
   [authMiddleware.verifyToken],
