@@ -80,7 +80,7 @@ exports.dailyCheckin = async (req, res) => {
     const isSameDay = today.toDateString() === lastCheckinDate.toDateString();
 
     if (isSameDay) {
-      return res.status(400).json({ message: "Anda sudah check-in hari ini" });
+      return res.status(400).json({ message: "Tunggu waktunya, ya!" });
     }
 
     user.point += 25;

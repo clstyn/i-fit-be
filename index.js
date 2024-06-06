@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", require("./routes/auth.route"));
 app.use("/post", require("./routes/post.route"));
+app.use("/user", require("./routes/user.route"));
 
 try {
   app.listen(PORT, () => {

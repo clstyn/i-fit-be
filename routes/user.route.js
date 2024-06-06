@@ -10,4 +10,9 @@ router.post(
   [authMiddleware.verifyToken],
   controller.saveBMIAKG
 );
+router.post(
+  "/daily-checkin",
+  [authMiddleware.verifyToken],
+  controller.dailyCheckin
+);
 module.exports = router;
