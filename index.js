@@ -26,6 +26,7 @@ app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", require("./routes/auth.route"));
+app.use("/post", require("./routes/post.route"));
 
 try {
   app.listen(PORT, () => {

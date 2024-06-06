@@ -49,6 +49,7 @@ exports.findOne = (req, res) => {
 
 // Create a new post
 exports.create = (req, res) => {
+  const userId = req.user._id;
   const post = new Post({
     title: req.body.title,
     desc: req.body.desc,
@@ -58,7 +59,7 @@ exports.create = (req, res) => {
     bahan: req.body.bahan,
     langkah: req.body.langkah,
     tags: req.body.tags,
-    author: req.body.author,
+    author: userId,
   });
 
   post
@@ -77,52 +78,75 @@ exports.create = (req, res) => {
 };
 
 // Update a post by ID
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.params.id;
+  const userId = req.user._id;
 
-  Post.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).json({
-          message: `Post dengan id ${id} tidak ditemukan.`,
-        });
-      }
-      res.status(200).json({
-        message: "Post berhasil diupdate",
-        recipe: data,
+  try {
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).json({
+        message: `Post dengan id ${id} tidak ditemukan.`,
       });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message:
-          err.message ||
-          `Terjadi kesalahan saat mengupdate post dengan id ${id}`,
+    }
+
+    if (post.author.toString() !== userId.toString()) {
+      return res.status(403).json({
+        message: "Anda tidak memiliki akses untuk mengupdate post ini",
       });
+    }
+
+    const updated = await Post.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
     });
+
+    res.status(200).json({
+      message: "Post berhasil diupdate",
+      recipe: updated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        err.message || `Terjadi kesalahan saat mengupdate post dengan id ${id}`,
+    });
+  }
 };
 
 // Delete a post by ID
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
+  const userId = req.user._id;
 
-  Post.findByIdAndRemove(id)
-    .then((data) => {
-      if (!data) {
-        return res.status(404).json({
-          message: `Post dengan id ${id} tidak ditemukan.`,
-        });
-      }
-      res.status(200).json({
-        message: "Post berhasil dihapus",
+  try {
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).json({
+        message: `Post dengan id ${id} tidak ditemukan.`,
       });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message:
-          err.message ||
-          `Terjadi kesalahan saat menghapus post dengan id ${id}`,
+    }
+
+    // Check if the user is the owner of the post
+    if (post.author.toString() !== userId.toString()) {
+      return res.status(403).json({
+        message: "Anda tidak memiliki akses untuk menghapus post ini.",
       });
+    }
+
+    await Post.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: "Post berhasil dihapus.",
     });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        error.message ||
+        `Terjadi kesalahan saat menghapus post dengan id ${id}.`,
+    });
+  }
 };
 
 // Like or unlike a post
@@ -187,6 +211,7 @@ exports.getLikedPost = (req, res) => {
 // Get my post only
 exports.getMyPost = (req, res) => {
   const userId = req.user._id;
+  console.log("yes");
   Post.find({ author: userId })
     .then((data) => {
       res.status(200).json({
