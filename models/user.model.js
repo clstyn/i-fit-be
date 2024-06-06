@@ -63,7 +63,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function (next) {
-  console.log(this.email);
   if (validator.isEmail(this.email)) {
     next();
   } else {

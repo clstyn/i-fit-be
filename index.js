@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 const db = require("./models");
 db.connectDB();
@@ -19,6 +20,12 @@ const PORT = process.env.PORT || 9000;
 app.get("/", (req, res) => {
   res.send("Welcome to the I-Fit server!");
 });
+
+app.set("view engine", "ejs");
+app.set("views", "views");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/auth", require("./routes/auth.route"));
 
 try {
   app.listen(PORT, () => {

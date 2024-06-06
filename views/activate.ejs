@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-Fit</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-image: url('/backdrop.png'), linear-gradient(to bottom right, #B0FFE9, #4CC2C4, #4C9D8C);
+            background-size: cover;
+            background-blend-mode: overlay;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #022249;
+        }
+
+        h1,
+        h3 {
+            color: #022249;
+            text-shadow: 1px 1px 2px #FFFFFF;
+        }
+
+        a {
+            color: #FFFFFF;
+            background-color: #4CC2C4;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            background-color: #4C9D8C;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <% if (success) { %>
+            <h1>Selamat datang <%= fullname %>!</h1>
+            <h3>Akun I-Fit Anda telah diaktivasi.</h3>
+            <a href="<%= clientUrl %>/login">Login</a>
+            <% } else { %>
+                <h1>Aktivasi Gagal</h1>
+                <h3>Maaf, terjadi kesalahan dalam mengaktifkan akun I-Fit Anda:</h3>
+                <h3>
+                    <%= message %>
+                </h3>
+                <a href="<%= clientUrl %>">Kembali</a>
+                <% } %>
+    </div>
+</body>
+
+</html>
