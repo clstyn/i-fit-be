@@ -4,7 +4,7 @@ const validator = require("validator");
 const subSchemaBMI = new mongoose.Schema({
   date: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   value: {
     type: Number,
@@ -17,7 +17,7 @@ const subSchemaBMI = new mongoose.Schema({
 const subSchemaAKG = new mongoose.Schema({
   date: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   value: {
     type: Number,
