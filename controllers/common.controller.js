@@ -1,5 +1,6 @@
 const db = require("../models");
-const Diet = db.prize;
+const Diet = db.diet;
+const Prize = db.prize;
 const Olahraga = db.olahraga;
 
 exports.getOlahragaDetail = (req, res) => {
@@ -49,6 +50,21 @@ exports.getDietDetail = (req, res) => {
         message:
           err.message ||
           `Terjadi kesalahan saat mendapatkan diet dengan id ${id}`,
+      });
+    });
+};
+
+exports.getAllPrizes = (req, res) => {
+  Prize.find()
+    .then((data) => {
+      res.status(200).json({
+        message: "Berhasil mendapatkan data prize",
+        prize: data,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: err.message || "Terjadi kesalahan saat mendapatkan data prize",
       });
     });
 };
