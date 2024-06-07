@@ -3,6 +3,7 @@ const Diet = db.diet;
 const Prize = db.prize;
 const Olahraga = db.olahraga;
 const Food = db.food;
+const Nutrition = db.nutrition;
 
 exports.getOlahragaDetail = (req, res) => {
   const id = req.params.id;
@@ -75,15 +76,18 @@ exports.getFood = async (req, res) => {
 
   try {
     if (search) {
-      const searchResults = await Food.find({ nama: new RegExp(search, "i") });
+      const searchResults = await Nutrition.find({
+        name: new RegExp(search, "i"),
+      }).select("-_id -fat -proteins -carbohydrates -image");
       return res.status(200).json(searchResults);
     } else if (page) {
       const perPage = 10;
       const currentPage = parseInt(page, 10) || 1;
-      const totalFoods = await Food.countDocuments();
-      const foods = await Food.find()
+      const totalFoods = await Nutrition.countDocuments();
+      const foods = await Nutrition.find()
         .skip((currentPage - 1) * perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .select("-_id -fat -proteins -carbohydrate -image");
 
       return res.status(200).json({
         totalFoods,
@@ -92,8 +96,9 @@ exports.getFood = async (req, res) => {
         foods,
       });
     } else {
-      console.log("here");
-      const foods = await Food.find();
+      const foods = await Nutrition.find().select(
+        "-_id -fat -proteins -carbohydrates -image"
+      );
       return res.status(200).json(foods);
     }
   } catch (err) {

@@ -16,6 +16,6 @@ router.get(
 );
 router.get("/diet/:id", [authMiddleware.verifyToken], controller.getDietDetail);
 router.get("/prizes", [authMiddleware.verifyToken], controller.getAllPrizes);
-router.get("/food", [authMiddleware.verifyToken], controller.getFood);
+router.get("/food", controller.getFood);
 
 module.exports = router;

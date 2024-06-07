@@ -13,4 +13,5 @@ module.exports = {
   prize: require("./prize.model"),
   olahraga: require("./olahraga.model"),
   food: require("./food.model"),
+  nutrition: require("./nutrition.model"),
 };
