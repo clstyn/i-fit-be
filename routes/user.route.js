@@ -16,12 +16,12 @@ router.post(
   controller.dailyCheckin
 );
 router.post(
-  "/save-challenge",
+  "/save-challenge/:id",
   [authMiddleware.verifyToken],
   controller.saveChallenge
 );
 router.post(
-  "/challenge-done",
+  "/challenge-done/:id",
   [authMiddleware.verifyToken],
   controller.challengeDone
 );

@@ -3,6 +3,12 @@ const User = db.user;
 const Prize = db.prize;
 const Olahraga = db.olahraga;
 
+const dotenv = require("dotenv");
+dotenv.config();
+
+const { sendEmail } = require("../config/email");
+const jwtsecret = process.env.JWT_SECRET;
+
 exports.getProfile = (req, res) => {
   const id = req.user._id;
 
@@ -158,6 +164,14 @@ exports.challengeDone = async (req, res) => {
       return res.status(404).json({ message: "Challenge tidak ditemukan" });
     }
 
+    const today = new Date();
+    const last = new Date(challenge.lastDone);
+    const isSameDay = today.toDateString() === last.toDateString();
+
+    if (isSameDay) {
+      return res.status(400).json({ message: "Klaim lagi besok" });
+    }
+
     challenge.lastDone = new Date();
 
     user.point += challenge.point;
@@ -173,7 +187,7 @@ exports.challengeDone = async (req, res) => {
 };
 
 exports.redeemPrize = async (req, res) => {
-  const prizeId = req.params.id;
+  const prizeId = req.params.prizeId;
   const userId = req.user._id;
 
   try {
@@ -188,17 +202,17 @@ exports.redeemPrize = async (req, res) => {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
-    if (user.point < prize.point) {
+    if (user.point < prize.pointNeeded) {
       return res.status(400).json({ message: "Poin tidak cukup" });
     }
 
-    user.point -= prize.point;
+    user.point -= prize.pointNeeded;
 
     await user.save();
 
     sendEmail({
       from: process.env.EMAIL_USER,
-      to: email,
+      to: user.email,
       subject: "Email Akun Resmi I-Fit - Penukaran hadiah",
       html: `<div style="padding: 16px 24px;">
               <h1 style="color: #000; font-size: 36px; margin-bottom: 36px">Selamat! Anda berhasil menukarkan poin</h1>
