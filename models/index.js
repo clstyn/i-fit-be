@@ -9,4 +9,8 @@ module.exports = {
   // models
   user: require("./user.model"),
   post: require("./post.model"),
+  diet: require("./diet.model"),
+  prize: require("./prize.model"),
+  olahraga: require("./olahraga.model"),
+  food: require("./food.model"),
 };

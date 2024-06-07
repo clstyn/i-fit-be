@@ -1,3 +1,4 @@
+const { name } = require("ejs");
 const mongoose = require("mongoose");
 const validator = require("validator");
 
@@ -21,6 +22,22 @@ const subSchemaAKG = new mongoose.Schema({
   },
   value: {
     type: Number,
+  },
+});
+
+const subSchemaChallenge = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  keterangan: {
+    type: String,
+  },
+  point: {
+    type: Number,
+  },
+  lastDone: {
+    type: Date,
+    default: null,
   },
 });
 
@@ -58,6 +75,10 @@ const UserSchema = new mongoose.Schema({
   },
   akgs: {
     type: [subSchemaAKG],
+    default: [],
+  },
+  challenges: {
+    type: [subSchemaChallenge],
     default: [],
   },
 });

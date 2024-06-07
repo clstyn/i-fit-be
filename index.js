@@ -29,6 +29,9 @@ app.use("/auth", require("./routes/auth.route"));
 app.use("/post", require("./routes/post.route"));
 app.use("/user", require("./routes/user.route"));
 
+// const seedDB = require("./seeddb");
+// seedDB();
+
 try {
   app.listen(PORT, () => {
     console.log(`Listening to port ${PORT}`);

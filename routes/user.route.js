@@ -15,4 +15,19 @@ router.post(
   [authMiddleware.verifyToken],
   controller.dailyCheckin
 );
+router.post(
+  "/save-challenge",
+  [authMiddleware.verifyToken],
+  controller.saveChallenge
+);
+router.post(
+  "/challenge-done",
+  [authMiddleware.verifyToken],
+  controller.challengeDone
+);
+router.post(
+  "/redeem/:prizeId",
+  [authMiddleware.verifyToken],
+  controller.redeemPrize
+);
 module.exports = router;
