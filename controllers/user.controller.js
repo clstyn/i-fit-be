@@ -231,3 +231,5 @@ exports.redeemPrize = async (req, res) => {
       .json({ message: err.message || "Kesalahan pada server" });
   }
 };
+
+exports.recommend = (req, res) => {};
