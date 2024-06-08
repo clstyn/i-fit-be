@@ -6,6 +6,11 @@ const router = express.Router();
 
 router.get("/profile", [authMiddleware.verifyToken], controller.getProfile);
 router.get("/point", [authMiddleware.verifyToken], controller.getPoint);
+router.get(
+  "/challenges",
+  [authMiddleware.verifyToken],
+  controller.getChallenge
+);
 router.post(
   "/save-bmi-akg",
   [authMiddleware.verifyToken],

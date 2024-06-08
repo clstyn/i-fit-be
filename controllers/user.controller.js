@@ -59,6 +59,31 @@ exports.getPoint = (req, res) => {
     });
 };
 
+exports.getChallenge = (req, res) => {
+  const id = req.user._id;
+
+  User.findById(id)
+    .select("challenges")
+    .then((data) => {
+      if (!data) {
+        return res.status(404).json({
+          message: `User dengan id ${id} tidak ditemukan.`,
+        });
+      }
+      res.status(200).json({
+        message: "Berhasil mendapatkan challenge point user",
+        challenges: data.challenges,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message:
+          err.message ||
+          `Terjadi kesalahan saat mendapatkan point user dengan id ${id}`,
+      });
+    });
+};
+
 exports.saveBMIAKG = async (req, res) => {
   try {
     const { bmiVal, bmiCat, akg, weight, height, age, gender, activityLevel } =
