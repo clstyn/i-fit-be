@@ -71,23 +71,33 @@ exports.getAllPrizes = (req, res) => {
     });
 };
 
-exports.getFood = async (req, res) => {
+eexports.getFood = async (req, res) => {
   const { page, search } = req.query;
 
   try {
+    const perPage = 10;
+    const currentPage = parseInt(page, 10) || 1;
+
     if (search) {
-      const searchResults = await Nutrition.find({
-        name: new RegExp(search, "i"),
-      }).select("-_id -fat -proteins -carbohydrates -image");
-      return res.status(200).json(searchResults);
+      const searchQuery = { name: new RegExp(search, "i") };
+      const totalSearchResults = await Nutrition.countDocuments(searchQuery);
+      const searchResults = await Nutrition.find(searchQuery)
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage)
+        .select("-_id -fat -proteins -carbohydrates -image");
+
+      return res.status(200).json({
+        totalFoods: totalSearchResults,
+        currentPage,
+        totalPages: Math.ceil(totalSearchResults / perPage),
+        results: searchResults,
+      });
     } else if (page) {
-      const perPage = 10;
-      const currentPage = parseInt(page, 10) || 1;
       const totalFoods = await Nutrition.countDocuments();
       const foods = await Nutrition.find()
         .skip((currentPage - 1) * perPage)
         .limit(perPage)
-        .select("-_id -fat -proteins -carbohydrate -image");
+        .select("-_id -fat -proteins -carbohydrates -image");
 
       return res.status(200).json({
         totalFoods,
