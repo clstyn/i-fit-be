@@ -71,7 +71,7 @@ exports.getAllPrizes = (req, res) => {
     });
 };
 
-eexports.getFood = async (req, res) => {
+exports.getFood = async (req, res) => {
   const { page, search } = req.query;
 
   try {
