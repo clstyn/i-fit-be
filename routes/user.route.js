@@ -5,6 +5,7 @@ const { authMiddleware } = require("../middleware");
 const router = express.Router();
 
 router.get("/profile", [authMiddleware.verifyToken], controller.getProfile);
+router.get("/point", [authMiddleware.verifyToken], controller.getPoint);
 router.post(
   "/save-bmi-akg",
   [authMiddleware.verifyToken],

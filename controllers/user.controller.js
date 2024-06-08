@@ -33,6 +33,32 @@ exports.getProfile = (req, res) => {
     });
 };
 
+exports.getPoint = (req, res) => {
+  const id = req.user._id;
+
+  User.findById(id)
+    .select("point latestCheckin")
+    .then((data) => {
+      if (!data) {
+        return res.status(404).json({
+          message: `User dengan id ${id} tidak ditemukan.`,
+        });
+      }
+      res.status(200).json({
+        message: "Berhasil mendapatkan data point user",
+        point: data.point,
+        latestCheckin: data.latestCheckin,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message:
+          err.message ||
+          `Terjadi kesalahan saat mendapatkan point user dengan id ${id}`,
+      });
+    });
+};
+
 exports.saveBMIAKG = async (req, res) => {
   try {
     const { bmiVal, bmiCat, akg, weight, height, age, gender, activityLevel } =
