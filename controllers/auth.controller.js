@@ -230,7 +230,7 @@ exports.forgotPassword = async (req, res) => {
                 Silahkan klik tautan di bawah ini untuk memulihkan kata sandi pada akun I-Fit. Abaikan jika Anda tidak meminta email ini.
               </p>
               <a
-                href="${process.env.CLIENT_URL}/recoverAccount?token=${token}?username=${user.username}"
+                href="${process.env.CLIENT_URL}/recoverAccount?token=${token}&username=${user.username}"
                 style="padding: 5px 10px; color: white; font: semibold; border-radius: 16px; background-color: #4CC2C4;"
                 >Aktivasi</a>
               <p style="color: #000; font-size: 14px; font-style: italic">Tautan akan kadaluarsa dalam 1 jam</p>
