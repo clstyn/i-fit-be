@@ -41,6 +41,12 @@ const subSchemaChallenge = new mongoose.Schema({
   },
 });
 
+const getFormattedDate = () => {
+  const date = new Date();
+  const options = { year: "numeric", month: "long" };
+  return date.toLocaleDateString("en-US", options);
+};
+
 const UserSchema = new mongoose.Schema({
   fullname: {
     type: String,
@@ -80,6 +86,10 @@ const UserSchema = new mongoose.Schema({
   challenges: {
     type: [subSchemaChallenge],
     default: [],
+  },
+  joined: {
+    type: String,
+    default: getFormattedDate,
   },
 });
 
