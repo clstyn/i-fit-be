@@ -91,6 +91,26 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: getFormattedDate,
   },
+  gender: {
+    type: String,
+    default: null,
+  },
+  lastWeight: {
+    type: Number,
+    default: 0,
+  },
+  lastHeight: {
+    type: Number,
+    default: 0,
+  },
+  age: {
+    type: Number,
+    default: 0,
+  },
+  activityLevel: {
+    type: String,
+    default: null,
+  },
 });
 
 UserSchema.pre("save", async function (next) {

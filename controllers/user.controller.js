@@ -35,7 +35,8 @@ exports.getProfile = (req, res) => {
 
 exports.saveBMIAKG = async (req, res) => {
   try {
-    const { bmiVal, bmiCat, akg } = req.body;
+    const { bmiVal, bmiCat, akg, weight, height, age, gender, activityLevel } =
+      req.body;
     const userId = req.user._id;
 
     const setBMI = {
@@ -62,6 +63,12 @@ exports.saveBMIAKG = async (req, res) => {
     if (user.akgs.length > 3) {
       user.akgs.shift();
     }
+
+    user.lastWeight = weight;
+    user.lastHeight = height;
+    user.age = age;
+    user.gender = gender;
+    user.activityLevel = activityLevel;
 
     await user.save();
 
