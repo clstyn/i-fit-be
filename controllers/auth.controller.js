@@ -160,6 +160,7 @@ exports.signin = (req, res) => {
       res.status(200).send({
         message: "Berhasil masuk",
         user: {
+          id: user._id,
           username: user.username,
           fullname: user.fullname,
           email: user.email,
