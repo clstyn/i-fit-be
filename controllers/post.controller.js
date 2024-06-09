@@ -4,11 +4,16 @@ const Post = db.post;
 //Get all posts
 exports.findAll = (req, res) => {
   const query = {};
-  if (req.query.tags) {
-    query.tags = req.query.tags;
+  if (req.query.tag) {
+    query.tag = req.query.tag;
+  }
+
+  if (req.query.search) {
+    query.title = { $regex: req.query.search, $options: "i" };
   }
 
   Post.find(query)
+    .populate("author", "username")
     .then((data) => {
       res.status(200).json({
         message: "Berhasil mendapatkan semua postingan resep",
