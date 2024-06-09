@@ -5,7 +5,7 @@ const Post = db.post;
 exports.findAll = (req, res) => {
   const query = {};
   if (req.query.tag) {
-    query.tags = req.query.tag;
+    query.tag = { $regex: req.query.tag, $options: "i" };
   }
 
   if (req.query.search) {
