@@ -64,7 +64,7 @@ exports.create = (req, res) => {
     cookmin: req.body.cookmin,
     bahan: req.body.bahan,
     langkah: req.body.langkah,
-    tags: req.body.tags,
+    tag: req.body.tag,
     author: userId,
   });
 
