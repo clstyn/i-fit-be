@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
   }
 
   Post.find(query)
-    .select("-bahan -langkah -desc -portion")
+    .select("-langkah -desc -portion")
     .populate("author", "username")
     .then((data) => {
       res.status(200).json({
