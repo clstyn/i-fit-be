@@ -50,8 +50,8 @@ const PostSchema = new mongoose.Schema({
     ref: "User",
     default: [],
   },
-  tags: {
-    type: [String],
+  tag: {
+    type: String,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

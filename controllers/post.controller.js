@@ -5,7 +5,7 @@ const Post = db.post;
 exports.findAll = (req, res) => {
   const query = {};
   if (req.query.tag) {
-    query.tag = req.query.tag;
+    query.tags = req.query.tag;
   }
 
   if (req.query.search) {
@@ -13,6 +13,7 @@ exports.findAll = (req, res) => {
   }
 
   Post.find(query)
+    .select("-bahan -langkah -desc -portion")
     .populate("author", "username")
     .then((data) => {
       res.status(200).json({
