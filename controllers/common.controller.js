@@ -131,11 +131,11 @@ exports.getRecommendations = async (req, res) => {
     let olahragaRecommendations;
     let foodRecommendations;
 
-    const dietRecommendations = await Diet.find({
+    dietRecommendations = await Diet.find({
       bmi_categori: bmiCat,
     }).limit(3);
 
-    const olahragaRecommendations = await Olahraga.find({
+    olahragaRecommendations = await Olahraga.find({
       bmi_categori: bmiCat,
     }).limit(3);
 
