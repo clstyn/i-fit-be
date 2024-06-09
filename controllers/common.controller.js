@@ -124,54 +124,62 @@ exports.getRecommendations = async (req, res) => {
   try {
     const user = await db.user.findById(userId);
 
-    const bmi = user.bmis[user.bmis.length - 1].value;
+    const bmiCat = user.bmis[user.bmis.length - 1].category;
     const akg = user.akgs[user.akgs.length - 1].value;
 
     let dietRecommendations;
     let olahragaRecommendations;
     let foodRecommendations;
 
-    if (bmi < 18.5) {
-      dietRecommendations = await Diet.find({
-        nama: {
-          $in: ["Diet Tinggi Kalori", "Diet Tinggi Protein", "Diet Seimbang"],
-        },
-      }).limit(3);
-    } else if (bmi >= 18.5 && bmi <= 24.9) {
-      dietRecommendations = await Diet.find({
-        nama: { $in: ["Diet Seimbang", "Diet Mediterania", "Diet Vegan"] },
-      }).limit(3);
-    } else if (bmi >= 25 && bmi <= 29.9) {
-      dietRecommendations = await Diet.find({
-        nama: {
-          $in: ["Diet Rendah Karbohidrat", "Diet Mediterania", "Diet Keto"],
-        },
-      }).limit(3);
-    } else {
-      dietRecommendations = await Diet.find({
-        nama: { $in: ["Diet Rendah Karbohidrat", "Diet Keto", "Diet Paleo"] },
-      }).limit(3);
-    }
+    const dietRecommendations = await Diet.find({
+      bmi_categori: bmiCat,
+    }).limit(3);
 
-    if (bmi < 18.5) {
-      olahragaRecommendations = await Olahraga.find({
-        nama: { $in: ["Yoga", "Pilates", "Strength Training"] },
-      }).limit(3);
-    } else if (bmi >= 18.5 && bmi <= 24.9) {
-      olahragaRecommendations = await Olahraga.find({
-        nama: { $in: ["Jogging", "Swimming", "Cycling"] },
-      }).limit(3);
-    } else if (bmi >= 25 && bmi <= 29.9) {
-      olahragaRecommendations = await Olahraga.find({
-        nama: {
-          $in: ["High-Intensity Interval Training", "Running", "CrossFit"],
-        },
-      }).limit(3);
-    } else {
-      olahragaRecommendations = await Olahraga.find({
-        nama: { $in: ["Walking", "Elliptical Trainer", "Aqua Aerobics"] },
-      }).limit(3);
-    }
+    const olahragaRecommendations = await Olahraga.find({
+      bmi_categori: bmiCat,
+    }).limit(3);
+
+    // if (bmi < 18.5) {
+    //   dietRecommendations = await Diet.find({
+    //     nama: {
+    //       $in: ["Diet Tinggi Kalori", "Diet Tinggi Protein", "Diet Seimbang"],
+    //     },
+    //   }).limit(3);
+    // } else if (bmi >= 18.5 && bmi <= 24.9) {
+    //   dietRecommendations = await Diet.find({
+    //     nama: { $in: ["Diet Seimbang", "Diet Mediterania", "Diet Vegan"] },
+    //   }).limit(3);
+    // } else if (bmi >= 25 && bmi <= 29.9) {
+    //   dietRecommendations = await Diet.find({
+    //     nama: {
+    //       $in: ["Diet Rendah Karbohidrat", "Diet Mediterania", "Diet Keto"],
+    //     },
+    //   }).limit(3);
+    // } else {
+    //   dietRecommendations = await Diet.find({
+    //     nama: { $in: ["Diet Rendah Karbohidrat", "Diet Keto", "Diet Paleo"] },
+    //   }).limit(3);
+    // }
+
+    // if (bmi < 18.5) {
+    //   olahragaRecommendations = await Olahraga.find({
+    //     nama: { $in: ["Yoga", "Pilates", "Strength Training"] },
+    //   }).limit(3);
+    // } else if (bmi >= 18.5 && bmi <= 24.9) {
+    //   olahragaRecommendations = await Olahraga.find({
+    //     nama: { $in: ["Jogging", "Swimming", "Cycling"] },
+    //   }).limit(3);
+    // } else if (bmi >= 25 && bmi <= 29.9) {
+    //   olahragaRecommendations = await Olahraga.find({
+    //     nama: {
+    //       $in: ["High-Intensity Interval Training", "Running", "CrossFit"],
+    //     },
+    //   }).limit(3);
+    // } else {
+    //   olahragaRecommendations = await Olahraga.find({
+    //     nama: { $in: ["Walking", "Elliptical Trainer", "Aqua Aerobics"] },
+    //   }).limit(3);
+    // }
 
     if (akg < 2000) {
       foodRecommendations = await Food.find({ kalori: { $lte: 300 } }).limit(6);
