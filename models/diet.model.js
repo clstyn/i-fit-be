@@ -1,17 +1,20 @@
 const mongoose = require("mongoose");
 
 const DietSchema = new mongoose.Schema({
-  nama: {
+  bmi_category: {
     type: String,
   },
-  desc: {
+  goals: {
     type: String,
   },
-  picUrl: {
+  name_diet: {
     type: String,
   },
-  references: {
-    type: [String],
+  url: {
+    type: String,
+  },
+  diet_desc: {
+    type: String,
   },
 });
 

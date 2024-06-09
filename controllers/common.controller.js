@@ -9,7 +9,7 @@ exports.getOlahragaDetail = (req, res) => {
   const id = req.params.id;
 
   Olahraga.findById(id)
-    .select("-reps -pointAwarded")
+    .select("_id exercise type_recommen desc url")
     .then((item) => {
       if (!item) {
         return res.status(404).json({

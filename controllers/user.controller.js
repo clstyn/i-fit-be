@@ -167,14 +167,14 @@ exports.saveChallenge = async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const { nama, reps, pointAwarded } = await Olahraga.findById(
+    const { exercise, count, point } = await Olahraga.findById(
       olahragaId
-    ).select("nama reps pointAwarded");
+    ).select("exercise count point");
 
     const challenge = {
-      name: nama,
-      keterangan: reps,
-      point: pointAwarded,
+      name: exercise,
+      keterangan: count,
+      point: point,
     };
 
     const user = await User.findById(userId);

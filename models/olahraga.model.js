@@ -1,23 +1,29 @@
 const mongoose = require("mongoose");
 
 const OlahragaSchema = new mongoose.Schema({
-  nama: {
+  bmi_category: {
     type: String,
+  },
+  goals: {
+    type: String,
+  },
+  type_recommen: {
+    type: String,
+  },
+  exercise: {
+    type: String,
+  },
+  count: {
+    type: String,
+  },
+  point: {
+    type: Number,
   },
   desc: {
     type: String,
   },
-  picUrl: {
+  url: {
     type: String,
-  },
-  references: {
-    type: [String],
-  },
-  reps: {
-    type: String,
-  },
-  pointAwarded: {
-    type: Number,
   },
 });
 
