@@ -131,31 +131,26 @@ exports.getRecommendations = async (req, res) => {
     let olahragaRecommendations;
     let foodRecommendations;
 
-    dietRecommendations = await Diet.aggregate([
-      { $match: { bmi_categori: bmiCat } },
-      { $sample: { size: 3 } },
-    ]);
+    dietRecommendations = await Diet.find({
+      bmi_categori: bmiCat,
+    }).limit(3);
 
-    olahragaRecommendations = await Olahraga.aggregate([
-      { $match: { bmi_category: bmiCat } },
-      { $sample: { size: 3 } },
-    ]);
+    olahragaRecommendations = await Olahraga.find({
+      bmi_category: bmiCat,
+    }).limit(3);
 
     if (akg < 2000) {
-      foodRecommendations = await Nutrition.aggregate([
-        { $match: { calories: { $lte: 300 } } },
-        { $sample: { size: 6 } },
-      ]);
+      foodRecommendations = await Nutrition.find({
+        calories: { $lte: 300 },
+      }).limit(6);
     } else if (akg >= 2000 && akg < 2500) {
-      foodRecommendations = await Nutrition.aggregate([
-        { $match: { calories: { $gt: 300, $lte: 500 } } },
-        { $sample: { size: 6 } },
-      ]);
+      foodRecommendations = await Nutrition.find({
+        calories: { $gt: 300, $lte: 500 },
+      }).limit(6);
     } else {
-      foodRecommendations = await Nutrition.aggregate([
-        { $match: { calories: { $gt: 500 } } },
-        { $sample: { size: 6 } },
-      ]);
+      foodRecommendations = await Nutrition.find({
+        calories: { $gt: 500 },
+      }).limit(6);
     }
 
     return res.status(200).json({
