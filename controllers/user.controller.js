@@ -171,25 +171,25 @@ exports.saveChallenge = async (req, res) => {
       olahragaId
     ).select("exercise count point");
 
-    const challenge = {
-      name: exercise,
-      keterangan: count,
-      point: point,
-    };
-
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
-    const challengeExists = user.challenges.some((ch) => ch.name === nama);
+    const challengeExists = user.challenges.some((ch) => ch.name === exercise);
 
     if (challengeExists) {
       return res
         .status(400)
         .json({ message: "Olahraga ini sudah ditambahkan" });
     }
+
+    const challenge = {
+      name: exercise,
+      keterangan: count,
+      point: point,
+    };
 
     user.challenges.push(challenge);
 
