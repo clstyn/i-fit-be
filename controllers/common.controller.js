@@ -131,68 +131,31 @@ exports.getRecommendations = async (req, res) => {
     let olahragaRecommendations;
     let foodRecommendations;
 
-    dietRecommendations = await Diet.find({
-      bmi_categori: bmiCat,
-    }).limit(3);
+    dietRecommendations = await Diet.aggregate([
+      { $match: { bmi_categori: bmiCat } },
+      { $sample: { size: 3 } },
+    ]);
 
-    olahragaRecommendations = await Olahraga.find({
-      bmi_category: bmiCat,
-    }).limit(3);
-
-    // if (bmi < 18.5) {
-    //   dietRecommendations = await Diet.find({
-    //     nama: {
-    //       $in: ["Diet Tinggi Kalori", "Diet Tinggi Protein", "Diet Seimbang"],
-    //     },
-    //   }).limit(3);
-    // } else if (bmi >= 18.5 && bmi <= 24.9) {
-    //   dietRecommendations = await Diet.find({
-    //     nama: { $in: ["Diet Seimbang", "Diet Mediterania", "Diet Vegan"] },
-    //   }).limit(3);
-    // } else if (bmi >= 25 && bmi <= 29.9) {
-    //   dietRecommendations = await Diet.find({
-    //     nama: {
-    //       $in: ["Diet Rendah Karbohidrat", "Diet Mediterania", "Diet Keto"],
-    //     },
-    //   }).limit(3);
-    // } else {
-    //   dietRecommendations = await Diet.find({
-    //     nama: { $in: ["Diet Rendah Karbohidrat", "Diet Keto", "Diet Paleo"] },
-    //   }).limit(3);
-    // }
-
-    // if (bmi < 18.5) {
-    //   olahragaRecommendations = await Olahraga.find({
-    //     nama: { $in: ["Yoga", "Pilates", "Strength Training"] },
-    //   }).limit(3);
-    // } else if (bmi >= 18.5 && bmi <= 24.9) {
-    //   olahragaRecommendations = await Olahraga.find({
-    //     nama: { $in: ["Jogging", "Swimming", "Cycling"] },
-    //   }).limit(3);
-    // } else if (bmi >= 25 && bmi <= 29.9) {
-    //   olahragaRecommendations = await Olahraga.find({
-    //     nama: {
-    //       $in: ["High-Intensity Interval Training", "Running", "CrossFit"],
-    //     },
-    //   }).limit(3);
-    // } else {
-    //   olahragaRecommendations = await Olahraga.find({
-    //     nama: { $in: ["Walking", "Elliptical Trainer", "Aqua Aerobics"] },
-    //   }).limit(3);
-    // }
+    olahragaRecommendations = await Olahraga.aggregate([
+      { $match: { bmi_category: bmiCat } },
+      { $sample: { size: 3 } },
+    ]);
 
     if (akg < 2000) {
-      foodRecommendations = await Nutrition.find({
-        calories: { $lte: 300 },
-      }).limit(6);
+      foodRecommendations = await Nutrition.aggregate([
+        { $match: { calories: { $lte: 300 } } },
+        { $sample: { size: 6 } },
+      ]);
     } else if (akg >= 2000 && akg < 2500) {
-      foodRecommendations = await Nutrition.find({
-        calories: { $gt: 300, $lte: 500 },
-      }).limit(6);
+      foodRecommendations = await Nutrition.aggregate([
+        { $match: { calories: { $gt: 300, $lte: 500 } } },
+        { $sample: { size: 6 } },
+      ]);
     } else {
-      foodRecommendations = await Nutrition.find({
-        calories: { $gt: 500 },
-      }).limit(6);
+      foodRecommendations = await Nutrition.aggregate([
+        { $match: { calories: { $gt: 500 } } },
+        { $sample: { size: 6 } },
+      ]);
     }
 
     return res.status(200).json({
