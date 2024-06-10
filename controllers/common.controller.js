@@ -136,7 +136,7 @@ exports.getRecommendations = async (req, res) => {
     }).limit(3);
 
     olahragaRecommendations = await Olahraga.find({
-      bmi_categori: bmiCat,
+      bmi_category: bmiCat,
     }).limit(3);
 
     // if (bmi < 18.5) {
