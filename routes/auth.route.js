@@ -23,5 +23,6 @@ router.post(
   [authMiddleware.verifyToken],
   controller.changePassword
 );
+router.post("/changepic", [authMiddleware.verifyToken], controller.changePic);
 
 module.exports = router;

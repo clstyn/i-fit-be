@@ -307,3 +307,32 @@ exports.changePassword = (req, res) => {
       res.status(500).json({ message: err.message || "Kesalahan pada server" });
     });
 };
+
+exports.changePic = async (req, res) => {
+  const userId = req.user._id;
+  const { imageUrl } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { picUrl: imageUrl },
+      { new: true }
+    ).exec();
+
+    if (!user) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    res.status(200).json({
+      message: "Berhasil memperbarui foto profil",
+      user: {
+        username: user.username,
+        picUrl: user.picUrl,
+      },
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: err.message || "Kesalahan pada server" });
+  }
+};
