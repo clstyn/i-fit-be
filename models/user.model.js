@@ -73,7 +73,7 @@ const UserSchema = new mongoose.Schema({
   },
   latestCheckin: {
     type: Date,
-    default: Date.now,
+    default: null,
   },
   bmis: {
     type: [subSchemaBMI],

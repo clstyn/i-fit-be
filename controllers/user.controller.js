@@ -141,12 +141,14 @@ exports.dailyCheckin = async (req, res) => {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
-    const today = new Date();
-    const lastCheckinDate = new Date(user.latestCheckin);
-    const isSameDay = today.toDateString() === lastCheckinDate.toDateString();
+    if (user.latestCheckin) {
+      const today = new Date();
+      const lastCheckinDate = new Date(user.latestCheckin);
+      const isSameDay = today.toDateString() === lastCheckinDate.toDateString();
 
-    if (isSameDay) {
-      return res.status(400).json({ message: "Tunggu waktunya, ya!" });
+      if (isSameDay) {
+        return res.status(400).json({ message: "Tunggu waktunya, ya!" });
+      }
     }
 
     user.point += 25;
