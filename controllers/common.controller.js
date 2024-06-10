@@ -182,13 +182,17 @@ exports.getRecommendations = async (req, res) => {
     // }
 
     if (akg < 2000) {
-      foodRecommendations = await Food.find({ kalori: { $lte: 300 } }).limit(6);
+      foodRecommendations = await Nutrition.find({
+        calories: { $lte: 300 },
+      }).limit(6);
     } else if (akg >= 2000 && akg < 2500) {
-      foodRecommendations = await Food.find({
-        kalori: { $gt: 300, $lte: 500 },
+      foodRecommendations = await Nutrition.find({
+        calories: { $gt: 300, $lte: 500 },
       }).limit(6);
     } else {
-      foodRecommendations = await Food.find({ kalori: { $gt: 500 } }).limit(6);
+      foodRecommendations = await Nutrition.find({
+        calories: { $gt: 500 },
+      }).limit(6);
     }
 
     return res.status(200).json({
