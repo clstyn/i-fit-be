@@ -111,6 +111,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  picUrl: {
+    type: String,
+    default:
+      "https://firebasestorage.googleapis.com/v0/b/ifit-iofest.appspot.com/o/recipeImg%2Fpp.jpg?alt=media&token=d2d615d5-44e3-4443-8632-666b1cac9b98",
+  },
 });
 
 UserSchema.pre("save", async function (next) {
